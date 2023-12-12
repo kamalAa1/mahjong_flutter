@@ -1,13 +1,13 @@
 import './layout.dart';
 import '../pieces/mahjong_tile.dart';
 
-typedef void Update(List<List<List<MahjongTile?>>> tiles);
+typedef Update = void Function(List<List<List<MahjongTile?>>> tiles);
 
 class LayoutPrecalc {
   final Layout layout;
 
-  List<Coordinate> _idxToCoord = [];
-  Map<Coordinate, int> _coordToIdx = {};
+  final List<Coordinate> _idxToCoord = [];
+  final Map<Coordinate, int> _coordToIdx = {};
 
   List<Set<int>> neighborsLeft = [];
   List<Set<int>> neighborsRight = [];
@@ -31,14 +31,14 @@ class LayoutPrecalc {
     }
 
     List<Set<int>> makeEmpty() {
-      return List.generate(_idxToCoord.length, (idx) => Set<int>(),
+      return List.generate(_idxToCoord.length, (idx) => <int>{},
           growable: false);
     }
 
-    this.neighborsLeft = makeEmpty();
-    this.neighborsRight = makeEmpty();
-    this.above = makeEmpty();
-    this.below = makeEmpty();
+    neighborsLeft = makeEmpty();
+    neighborsRight = makeEmpty();
+    above = makeEmpty();
+    below = makeEmpty();
 
     for (var idx = 0; idx < _idxToCoord.length; ++idx) {
       final coord = _idxToCoord[idx];
@@ -51,13 +51,13 @@ class LayoutPrecalc {
         coordToIdx(Coordinate(x - 2, y, z)),
         coordToIdx(Coordinate(x - 2, y + 1, z))
       ]).where((idx) => idx != -1).toSet();
-      this.neighborsLeft[idx] = lefts;
+      neighborsLeft[idx] = lefts;
       var right = ([
         coordToIdx(Coordinate(x + 2, y - 1, z)),
         coordToIdx(Coordinate(x + 2, y, z)),
         coordToIdx(Coordinate(x + 2, y + 1, z))
       ]).where((idx) => idx != -1).toSet();
-      this.neighborsRight[idx] = right;
+      neighborsRight[idx] = right;
       var top = ([
         coordToIdx(Coordinate(x - 1, y - 1, z + 1)),
         coordToIdx(Coordinate(x - 1, y, z + 1)),
@@ -69,7 +69,7 @@ class LayoutPrecalc {
         coordToIdx(Coordinate(x + 1, y, z + 1)),
         coordToIdx(Coordinate(x + 1, y + 1, z + 1)),
       ]).where((idx) => idx != -1).toSet();
-      this.above[idx] = top;
+      above[idx] = top;
       var bottom = ([
         coordToIdx(Coordinate(x - 1, y - 1, z - 1)),
         coordToIdx(Coordinate(x - 1, y, z - 1)),
@@ -81,7 +81,7 @@ class LayoutPrecalc {
         coordToIdx(Coordinate(x + 1, y, z - 1)),
         coordToIdx(Coordinate(x + 1, y + 1, z - 1)),
       ]).where((idx) => idx != -1).toSet();
-      this.below[idx] = bottom;
+      below[idx] = bottom;
     }
   }
 

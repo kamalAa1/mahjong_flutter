@@ -30,10 +30,10 @@ class GamePage extends StatefulWidget {
     return MaterialPageRoute(builder: (context) => GamePage(layout: id));
   }
 
-  GamePage({Key? key, required this.layout}) : super(key: key);
+  const GamePage({Key? key, required this.layout}) : super(key: key);
 
   @override
-  _GamePageState createState() => _GamePageState();
+  State<GamePage> createState() => _GamePageState();
 }
 
 class _GamePageState extends State<GamePage> {
@@ -105,10 +105,10 @@ class _GamePageState extends State<GamePage> {
     }
 
     setState(() {
-      this.startAt = DateTime.now().millisecondsSinceEpoch;
-      this.maxShuffles = preferences.maxShuffles;
+      startAt = DateTime.now().millisecondsSinceEpoch;
+      maxShuffles = preferences.maxShuffles;
       this.layoutMeta = layoutMeta;
-      this.tilesetMeta = tileset;
+      tilesetMeta = tileset;
       board = b;
     });
   }
@@ -143,16 +143,15 @@ class _GamePageState extends State<GamePage> {
     }
 
     setState(() {
-      this.shuffles++;
-      this.shuffleId++;
+      shuffles++;
+      shuffleId++;
       this.board = newBoard;
-      this.history = [];
+      history = [];
     });
   }
 
   showWinningDialog() async {
-    final finalTime =
-        DateTime.now().millisecondsSinceEpoch - (this.startAt ?? 0);
+    final finalTime = DateTime.now().millisecondsSinceEpoch - (startAt ?? 0);
     // final times = await highscoreDB.getTimes();
     // int? existingTime = times[widget.layout];
     // bool highScore = existingTime == null || existingTime > finalTime;
@@ -165,7 +164,7 @@ class _GamePageState extends State<GamePage> {
       context: this.context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Text(
+          content: const Text(
             // highScore
             //     ? "Congratulations! You set a new best time: ${timeToString(finalTime)}"
             //     :
@@ -174,7 +173,7 @@ class _GamePageState extends State<GamePage> {
           ),
           actions: <Widget>[
             TextButton(
-                child: Text('Yay!'),
+                child: const Text('Yay!'),
                 onPressed: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
@@ -193,7 +192,7 @@ class _GamePageState extends State<GamePage> {
           content: Text("You lost! $reason."),
           actions: <Widget>[
             TextButton(
-                child: Text('Dang it!'),
+                child: const Text('Dang it!'),
                 onPressed: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
@@ -209,10 +208,10 @@ class _GamePageState extends State<GamePage> {
       context: this.context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Text("No more available moves"),
+          content: const Text("No more available moves"),
           actions: <Widget>[
             TextButton(
-                child: Text('Shuffle'),
+                child: const Text('Shuffle'),
                 onPressed: () {
                   Navigator.of(context).pop();
                   shuffle();
@@ -232,13 +231,13 @@ class _GamePageState extends State<GamePage> {
     final tilesetMeta = this.tilesetMeta;
     final layoutMeta = this.layoutMeta;
 
-    TileAnimationLayer? tileAnimationLayer = this._tileAnimationLayer;
+    TileAnimationLayer? tileAnimationLayer = _tileAnimationLayer;
     if (layoutMeta != null &&
         tilesetMeta != null &&
         tileAnimationLayer == null) {
-      this._tileAnimationLayer = tileAnimationLayer = TileAnimationLayer(
+      _tileAnimationLayer = tileAnimationLayer = TileAnimationLayer(
         tilesetMeta: tilesetMeta,
-        depth: this.board!.depth,
+        depth: board!.depth,
       );
     }
 
@@ -257,7 +256,7 @@ class _GamePageState extends State<GamePage> {
       body: renderBackground(
         Center(
             child: board == null
-                ? Text("Loading...")
+                ? const Text("Loading...")
                 : Board(
                     shuffleId: shuffleId,
                     board: board!,
@@ -268,9 +267,9 @@ class _GamePageState extends State<GamePage> {
                     tileAnimationLayer: tileAnimationLayer!,
                     onSelected: (x, y, z) {
                       final board = this.board!;
-                      final oldSelectedX = this.selectedX;
-                      final oldSelectedY = this.selectedY;
-                      final oldSelectedZ = this.selectedZ;
+                      final oldSelectedX = selectedX;
+                      final oldSelectedY = selectedY;
+                      final oldSelectedZ = selectedZ;
 
                       if (x == oldSelectedX &&
                           y == oldSelectedY &&
@@ -327,7 +326,7 @@ class _GamePageState extends State<GamePage> {
                     Scaffold.of(context).openDrawer();
                   },
                   tooltip: 'Menu',
-                  child: Icon(Icons.menu),
+                  child: const Icon(Icons.menu),
                 ),
                 Container(
                   width: 20,
@@ -339,7 +338,7 @@ class _GamePageState extends State<GamePage> {
                     Scaffold.of(context).openEndDrawer();
                   },
                   tooltip: 'History',
-                  child: Icon(Icons.history),
+                  child: const Icon(Icons.history),
                 )
               ])),
     );
@@ -395,9 +394,9 @@ class _GamePageState extends State<GamePage> {
 
   setSelectedCoord(int? x, int? y, int? z) {
     setState(() {
-      this.selectedX = x;
-      this.selectedY = y;
-      this.selectedZ = z;
+      selectedX = x;
+      selectedY = y;
+      selectedZ = z;
     });
   }
 
@@ -474,8 +473,8 @@ class _GamePageState extends State<GamePage> {
               state.tile2;
         }
       });
-      this.history = this.history.take(idx).toList();
-      this.shuffleId++;
+      history = history.take(idx).toList();
+      shuffleId++;
     });
   }
 }

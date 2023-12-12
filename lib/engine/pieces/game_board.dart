@@ -2,7 +2,7 @@ import './mahjong_tile.dart';
 import '../layouts/layout.dart';
 import '../layouts/layout_precalc.dart';
 
-typedef void Update(List<List<List<MahjongTile?>>> tiles);
+typedef Update = void Function(List<List<List<MahjongTile?>>> tiles);
 
 class GameBoard {
   final List<List<List<MahjongTile?>>> _tiles;
@@ -21,12 +21,10 @@ class GameBoard {
 
   List<List<List<MahjongTile?>>> get tiles {
     var cache = _readonlyCache;
-    if (cache == null) {
-      cache = _readonlyCache = List.unmodifiable(_tiles.map((layer) =>
-          List.unmodifiable(layer
-                  .map((row) => List.unmodifiable(row).cast<MahjongTile?>()))
-              .cast<List<MahjongTile?>>())).cast<List<List<MahjongTile?>>>();
-    }
+    cache ??= _readonlyCache = List.unmodifiable(_tiles.map((layer) =>
+        List.unmodifiable(
+                layer.map((row) => List.unmodifiable(row).cast<MahjongTile?>()))
+            .cast<List<MahjongTile?>>())).cast<List<List<MahjongTile?>>>();
     return cache;
   }
 
@@ -58,7 +56,7 @@ class GameBoard {
   Set<Coordinate> get movable {
     var cache = _movableCache;
     if (cache == null) {
-      final tiles = this._tiles;
+      final tiles = _tiles;
       final width = this.width;
       final height = this.height;
       final depth = this.depth;
@@ -86,7 +84,7 @@ class GameBoard {
   }
 
   Set<MapEntry<Coordinate, Coordinate>> get matchable {
-    final moveable = this.movable;
+    final moveable = movable;
     final tiles = this.tiles;
     Map<MahjongTile, List<Coordinate>> byType = {};
     for (var coord in moveable) {

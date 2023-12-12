@@ -96,7 +96,7 @@ class LayoutMeta {
         await assetBundle.loadString('assets/layouts/$fileName');
 
     final lines = layoutFileContent.split(linebreak);
-    if (lines.length == 0) throw Exception("Empty layout file");
+    if (lines.isEmpty) throw Exception("Empty layout file");
     switch (lines[0]) {
       case layout10magic:
         return _loadLayout_1_0(lines.skip(1));
@@ -111,7 +111,7 @@ class LayoutMeta {
     final List<String> tiles = [];
     lines:
     for (var line in lines) {
-      if (line.length == 0) continue;
+      if (line.isEmpty) continue;
       switch (line[0]) {
         case "#":
           continue lines;
@@ -129,7 +129,7 @@ class LayoutMeta {
     var depth = 0;
 
     for (var line in lines) {
-      if (line.length == 0) continue;
+      if (line.isEmpty) continue;
       switch (line[0]) {
         case "#":
           break;
@@ -164,8 +164,9 @@ class LayoutMeta {
           if (chars[cellIdx] != '1') continue;
           board[z][y][x] = true;
           if (x > 0 && board[z][y][x - 1]) throw Exception("Overlapping tiles");
-          if (x > 0 && y > 0 && board[z][y - 1][x - 1])
+          if (x > 0 && y > 0 && board[z][y - 1][x - 1]) {
             throw Exception("Overlapping tiles");
+          }
           if (y > 0 && board[z][y - 1][x]) throw Exception("Overlapping tiles");
           ++tileCount;
         }
@@ -194,12 +195,14 @@ class LayoutVersionError implements Exception {
   LayoutVersionError(this.name, this.version);
   final String name;
   final int version;
+  @override
   String toString() => "Layout '$name' has the unsupported version ''$version";
 }
 
 class LayoutNotFound implements Exception {
   LayoutNotFound(this.name);
   final String name;
+  @override
   String toString() => "Unknown Layout '$name'";
 }
 

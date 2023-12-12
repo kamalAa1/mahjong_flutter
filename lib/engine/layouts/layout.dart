@@ -14,7 +14,7 @@ class Layout {
         width = _pieces[0][0].length;
 
   LayoutPrecalc getPrecalc() {
-    return LayoutPrecalc(this, this._pieces);
+    return LayoutPrecalc(this, _pieces);
   }
 
   List<List<List<bool>>> get pieces {
@@ -114,9 +114,11 @@ class Coordinate {
 
   Coordinate(this.x, this.y, this.z) : hash = hash3(x, y, z);
 
+  @override
   bool operator ==(Object other) {
     return other is Coordinate && x == other.x && y == other.y && z == other.z;
   }
 
+  @override
   int get hashCode => hash;
 }

@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
-typedef void Tap();
+typedef Tap = void Function();
 
 class Tile extends StatelessWidget {
-  Tile(
+  const Tile(
       {key,
       required this.type,
       required this.tilesetMeta,
@@ -48,8 +48,8 @@ class Tile extends StatelessWidget {
   Widget darken(bool darken, Widget child) {
     if (!darken) return child;
     return ColorFiltered(
-      child: child,
       colorFilter: darkenFilter,
+      child: child,
     );
   }
 

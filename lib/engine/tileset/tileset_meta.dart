@@ -21,7 +21,7 @@ class TilesetMetaCollection {
     if (_tilesets.containsKey(name)) {
       return _tilesets[name]!;
     }
-    throw new TilesetNotFound(name);
+    throw TilesetNotFound(name);
   }
 }
 
@@ -64,9 +64,10 @@ class TilesetMeta {
 
   static TilesetMeta deserialize(
       String basename, Map<String, dynamic> desktopData) {
-    if (desktopData[KVersionFormat] != 1)
+    if (desktopData[KVersionFormat] != 1) {
       throw TilesetVersionError(
           desktopData[KName], desktopData[KVersionFormat]);
+    }
     if (desktopData.containsKey(KLevelOffset)) {
       final int? offset = desktopData[KLevelOffset];
       desktopData.putIfAbsent(KLevelOffsetX, () => offset);
@@ -129,12 +130,14 @@ class TilesetVersionError implements Exception {
   TilesetVersionError(this.name, this.version);
   final String name;
   final int version;
+  @override
   String toString() => "Tileset '$name' has the unsupported version ''$version";
 }
 
 class TilesetNotFound implements Exception {
   TilesetNotFound(this.name);
   final String name;
+  @override
   String toString() => "Unknown Tileset '$name'";
 }
 

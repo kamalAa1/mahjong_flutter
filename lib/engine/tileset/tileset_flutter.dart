@@ -38,9 +38,7 @@ Future<String> loadLicence(BuildContext context, TilesetMeta tileset) {
   if (licenceLoaders.containsKey(key)) return licenceLoaders[key]!;
 
   final assetBundle = DefaultAssetBundle.of(context);
-  final loader = assetBundle.loadString(tilesetAssetFolder +
-      basenameWithoutExtension(tileset.fileName) +
-      '.copyright');
+  final loader = assetBundle.loadString('$tilesetAssetFolder${basenameWithoutExtension(tileset.fileName)}.copyright');
 
   licenceLoaders[key] = loader;
   return loader;

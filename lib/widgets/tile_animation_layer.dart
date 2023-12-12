@@ -106,7 +106,7 @@ class TileDismissalAnimation {
       : controller = AnimationController(
             duration: const Duration(milliseconds: 1000), vsync: _state) {
     animation = Tween<double>(begin: 0, end: 1).animate(
-        new CurvedAnimation(parent: controller, curve: Curves.easeOutCirc));
+        CurvedAnimation(parent: controller, curve: Curves.easeOutCirc));
   }
 }
 
@@ -117,7 +117,7 @@ class AnimationPasser {
       _onCreateAnimation;
 
   void createAnimation(MahjongTile tile, Coordinate coord, FlyDirection dir) {
-    final _onCreateAnimation = this._onCreateAnimation;
-    if (_onCreateAnimation != null) _onCreateAnimation(tile, coord, dir);
+    final onCreateAnimation = _onCreateAnimation;
+    if (onCreateAnimation != null) onCreateAnimation(tile, coord, dir);
   }
 }

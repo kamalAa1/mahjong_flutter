@@ -6,7 +6,7 @@ class MenuDrawer extends StatelessWidget {
   final String? layoutName;
   final Function shuffle;
 
-  MenuDrawer(
+  const MenuDrawer(
       {Key? key,
       required this.canShuffle,
       required this.shuffle,
@@ -32,20 +32,20 @@ class MenuDrawer extends StatelessWidget {
   }
 
   Widget header() {
-    return Container(
+    return SizedBox(
         height: 50.0,
         child: DrawerHeader(
-          child: Text(layoutName == null ? 'Ingame' : "Ingame: $layoutName"),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.blue,
           ),
+          child: Text(layoutName == null ? 'Ingame' : "Ingame: $layoutName"),
         ));
   }
 
   ListTile shuffleTile(BuildContext context) {
     return ListTile(
       enabled: canShuffle,
-      title: Text('Shuffle'),
+      title: const Text('Shuffle'),
       onTap: () {
         Navigator.pop(context);
         shuffle();
@@ -55,7 +55,7 @@ class MenuDrawer extends StatelessWidget {
 
   ListTile exitTile(BuildContext context) {
     return ListTile(
-      title: Text('Exit'),
+      title: const Text('Exit'),
       onTap: () {
         Navigator.pop(context);
         Navigator.pop(context);
