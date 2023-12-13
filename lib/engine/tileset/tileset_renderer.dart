@@ -14,15 +14,15 @@ class TilesetRenderer {
       BuildContext context, TilesetMeta tileset) async {
     final assetBundle = DefaultAssetBundle.of(context);
     final folder =
-        '${baseFolder}/${basenameWithoutExtension(tileset.fileName)}';
+        '$baseFolder/${basenameWithoutExtension(tileset.fileName)}';
 
-    var baseTile = loadImage(assetBundle, tileset, "${folder}/TILE_1");
+    var baseTile = loadImage(assetBundle, tileset, "$folder/TILE_1");
     final images = await Future.wait<Image>([
       baseTile,
       darkenImage(tileset, baseTile),
-      loadImage(assetBundle, tileset, "${folder}/TILE_1_SEL"),
+      loadImage(assetBundle, tileset, "$folder/TILE_1_SEL"),
       ...MahjongTile.values.map((tile) =>
-          loadImage(assetBundle, tileset, "${folder}/${tileToString(tile)}")),
+          loadImage(assetBundle, tileset, "$folder/${tileToString(tile)}")),
     ]);
 
     final Map<MahjongTile, Image> faceImg = {};
@@ -54,7 +54,7 @@ class TilesetRenderer {
     final recorder = PictureRecorder();
     final canvas = Canvas(recorder);
     canvas.drawImage(
-        await image, Offset.zero, new Paint()..colorFilter = darkenFilter);
+        await image, Offset.zero, Paint()..colorFilter = darkenFilter);
     return recorder
         .endRecording()
         .toImage(tileset.tileWidth, tileset.tileHeight);

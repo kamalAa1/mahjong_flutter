@@ -8,6 +8,7 @@ class LocalizableString {
   final String _default;
   final Map<String, String> _localizations;
 
+  @override
   String toString() {
     return _default;
   }
@@ -21,7 +22,7 @@ class LocalizableString {
       if (country != null && script != null) "${lang}_$country@$script",
       if (country != null) "${lang}_$country",
       if (script != null) "$lang@$script",
-      "$lang"
+      lang
     ];
     for (var variant in variants) {
       if (_localizations.containsKey(variant)) {

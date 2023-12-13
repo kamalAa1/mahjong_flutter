@@ -18,7 +18,7 @@ GameBoard makeBoard(Layout layout, LayoutPrecalc precalc,
 
   final Set<int> placeableCoordinates =
       Set.of(Iterable.generate(precalc.idxLength(), (idx) => idx));
-  final Set<int> blockedCoordinates = Set();
+  final Set<int> blockedCoordinates = {};
 
   final random = Random();
   tileSupply ??= InfiniteTileSupply(random);

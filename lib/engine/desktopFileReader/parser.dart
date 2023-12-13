@@ -3,7 +3,7 @@ import 'parse_spec.dart';
 
 class Parser {
   Parser(this._spec);
-  ParseSpec _spec;
+  final ParseSpec _spec;
 
   Map<String, Map<String, dynamic>> parse(String text) {
     final Map<String, Map<String, dynamic>> ret = {};
@@ -61,7 +61,7 @@ class Parser {
       }
       final type = spec[key];
       if (type != ItemType.LocalizableString && locale != null) {
-        throw new Error();
+        throw Error();
       }
       switch (type) {
         case ItemType.Bool:

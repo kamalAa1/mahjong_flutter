@@ -17,7 +17,7 @@ class BackgroundMetaCollection {
     if (_backgrounds.containsKey(name)) {
       return _backgrounds[name]!;
     }
-    throw new BackgroundNotFound(name);
+    throw BackgroundNotFound(name);
   }
 }
 
@@ -43,9 +43,10 @@ class BackgroundMeta {
 
   static BackgroundMeta deserialize(
       String basename, Map<String, dynamic> desktopData) {
-    if (desktopData[KVersionFormat] != 1)
+    if (desktopData[KVersionFormat] != 1) {
       throw BackgroundVersionError(
           desktopData[KName], desktopData[KVersionFormat]);
+    }
     return BackgroundMeta._(basename, desktopData);
   }
 }
@@ -66,6 +67,7 @@ class BackgroundVersionError implements Exception {
   BackgroundVersionError(this.name, this.version);
   final String name;
   final int version;
+  @override
   String toString() =>
       "Background '$name' has the unsupported version ''$version";
 }
@@ -73,6 +75,7 @@ class BackgroundVersionError implements Exception {
 class BackgroundNotFound implements Exception {
   BackgroundNotFound(this.name);
   final String name;
+  @override
   String toString() => "Unknown Background '$name'";
 }
 

@@ -15,19 +15,19 @@ import '../../widgets/tile.dart';
 
 class SettingsPage extends StatefulWidget {
   static const Route = '/settings';
-  SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({Key? key}) : super(key: key);
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
 
   static MaterialPageRoute generateRoute(RouteSettings routeSettings, Uri uri) {
     if (uri.pathSegments.length > 1 && uri.pathSegments[1] == 'tileset') {
-      return MaterialPageRoute(builder: (context) => SettingsTilesetPage());
+      return MaterialPageRoute(builder: (context) => const SettingsTilesetPage());
     }
     if (uri.pathSegments.length > 1 && uri.pathSegments[1] == 'background') {
       return MaterialPageRoute(builder: (context) => SettingsBackgroundPage());
     }
-    return MaterialPageRoute(builder: (context) => SettingsPage());
+    return MaterialPageRoute(builder: (context) => const SettingsPage());
   }
 }
 
@@ -36,7 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Settings'),
+          title: const Text('Settings'),
         ),
         body: Consumer3<Preferences?, TilesetMetaCollection?,
             BackgroundMetaCollection?>(
@@ -45,17 +45,17 @@ class _SettingsPageState extends State<SettingsPage> {
               TilesetMetaCollection? tilesets,
               BackgroundMetaCollection? backgrounds,
               child) {
-            if (preferences == null) return Text("");
+            if (preferences == null) return const Text("");
             return ListView(
               children: <Widget>[
                 ...tilesetListTiles(preferences, tilesets),
                 ...backgroundListTiles(preferences, backgrounds),
                 ListTile(
-                  leading: Text("Maximum retries: "),
+                  leading: const Text("Maximum retries: "),
                   title: retryButtons(preferences),
                 ),
                 CheckboxListTile(
-                  title: Text("Highlight moveable tiles: "),
+                  title: const Text("Highlight moveable tiles: "),
                   value: preferences.highlightMovables,
                   onChanged: (val) {
                     preferences.highlightMovables = val ?? false;
@@ -63,15 +63,15 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
                 ListTile(
-                  title: Text("About"),
+                  title: const Text("About"),
                   onTap: () {
                     showAboutDialog(context: context, children: [
-                      Text(
+                      const Text(
                           "An ad-free, open-source Mahjong Solitaire implementation."),
                       TextButton(
                           onPressed: () =>
                               launch("https://github.com/edave64/ED-Mahjong"),
-                          child: Text("View source"))
+                          child: const Text("View source"))
                     ]);
                   },
                 ),
@@ -82,7 +82,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget retryButtons(Preferences? preferences) {
-    if (preferences == null) return Text("");
+    if (preferences == null) return const Text("");
 
     final count = preferences.maxShuffles;
 
@@ -95,14 +95,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     preferences.maxShuffles--;
                     setState(() {});
                   },
-            child: Icon(Icons.remove)),
+            child: const Icon(Icons.remove)),
         Text(count == -1 ? "Infinite" : "$count"),
         TextButton(
             onPressed: () {
               preferences.maxShuffles++;
               setState(() {});
             },
-            child: Icon(Icons.add)),
+            child: const Icon(Icons.add)),
       ],
     );
   }
@@ -123,11 +123,11 @@ class _SettingsPageState extends State<SettingsPage> {
           Navigator.pushNamed(
             context,
             '/settings/tileset',
-          ).then((value) => this.setState(() {}));
+          ).then((value) => setState(() {}));
         },
       ),
       ListTile(
-        leading: Text('Author:'),
+        leading: const Text('Author:'),
         title: Text("${tileset.author} (${tileset.authorEmail})"),
         onTap: () {
           showDialog(
@@ -138,15 +138,17 @@ class _SettingsPageState extends State<SettingsPage> {
                   content: FutureBuilder(
                       future: loadLicence(context, tileset),
                       builder: (context, snapshot) {
-                        if (snapshot.hasError)
-                          return Text("Could not load licence data.");
-                        if (!snapshot.hasData)
-                          return Text("Loading licence data...");
+                        if (snapshot.hasError) {
+                          return const Text("Could not load licence data.");
+                        }
+                        if (!snapshot.hasData) {
+                          return const Text("Loading licence data...");
+                        }
                         return Text(snapshot.data as String);
                       }),
                   actions: <Widget>[
                     TextButton(
-                        child: Text('Neat!'),
+                        child: const Text('Neat!'),
                         onPressed: () {
                           Navigator.of(context).pop();
                         }),
@@ -157,7 +159,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       if (tileset.description.toString() != "")
         ListTile(
-          leading: Text('Description:'),
+          leading: const Text('Description:'),
           title: Text(tileset.description.toLocaleString(locale)),
         )
     ];
@@ -168,15 +170,15 @@ class _SettingsPageState extends State<SettingsPage> {
     final locale = PlatformDispatcher.instance.locale;
     final backgroundName = preferences.background;
 
-    final onTap = () {
+    onTap() {
       Navigator.pushNamed(
         context,
         '/settings/background',
-      ).then((value) => this.setState(() {}));
-    };
+      ).then((value) => setState(() {}));
+    }
 
     if (backgroundName == null) {
-      return [ListTile(title: Text("Background: None"), onTap: onTap)];
+      return [ListTile(title: const Text("Background: None"), onTap: onTap)];
     }
     if (backgrounds == null) {
       return [
@@ -190,9 +192,9 @@ class _SettingsPageState extends State<SettingsPage> {
         onTap: onTap,
       ),
       ListTile(
-        leading: Text('Author:'),
+        leading: const Text('Author:'),
         title: Text(
-            "${background.author} ${background.authorEmail != null ? background.authorEmail : ""}"),
+            "${background.author} ${background.authorEmail ?? ""}"),
       ),
     ];
   }
@@ -202,7 +204,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
 Widget previewTile(TilesetMeta tileset) {
   return Padding(
-      padding: EdgeInsets.all(2.0),
+      padding: const EdgeInsets.all(2.0),
       child: SizedBox(
           width: 50,
           height: 50,

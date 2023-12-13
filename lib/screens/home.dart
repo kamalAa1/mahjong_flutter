@@ -12,7 +12,7 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         },
         tooltip: 'Settings',
-        child: Icon(Icons.settings),
+        child: const Icon(Icons.settings),
       ),
     );
   }

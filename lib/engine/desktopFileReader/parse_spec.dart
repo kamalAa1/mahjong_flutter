@@ -1,11 +1,11 @@
 class ParseSpec {
   ParseSpec._(this._sections);
-  Map<String, SectionSpec> _sections;
+  final Map<String, SectionSpec> _sections;
   operator [](String str) => _sections[str];
 }
 
 class ParseSpecBuilder {
-  Map<String, SectionSpecBuilder> _sections = {};
+  final Map<String, SectionSpecBuilder> _sections = {};
 
   SectionSpecBuilder section(String key) {
     return _sections.putIfAbsent(key, () => SectionSpecBuilder._());
@@ -19,7 +19,7 @@ class ParseSpecBuilder {
 
 class SectionSpec {
   SectionSpec._(this._items);
-  Map<String, ItemType> _items;
+  final Map<String, ItemType> _items;
 
   bool has(String str) => _items.containsKey(str);
 
@@ -28,7 +28,7 @@ class SectionSpec {
 
 class SectionSpecBuilder {
   SectionSpecBuilder._();
-  Map<String, ItemType> _items = {};
+  final Map<String, ItemType> _items = {};
 
   operator []=(String str, ItemType type) {
     _items[str] = type;

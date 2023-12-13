@@ -14,16 +14,16 @@ class SettingsBackgroundPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Background'),
+          title: const Text('Background'),
         ),
         body: Consumer2<Preferences?, BackgroundMetaCollection?>(builder:
             (context, Preferences? preferences,
                 BackgroundMetaCollection? backgrounds, child) {
           final locale = PlatformDispatcher.instance.locale;
-          if (preferences == null || backgrounds == null) return Text("");
+          if (preferences == null || backgrounds == null) return const Text("");
           return ListView(itemExtent: 50, children: [
             ListTile(
-              title: Text('None'),
+              title: const Text('None'),
               onTap: () {
                 preferences.background = null;
                 Navigator.of(context).pop();
@@ -56,7 +56,7 @@ class SettingsBackgroundPage extends StatelessWidget {
                           // Solid text as fill.
                           Text(
                             background.name.toLocaleString(locale),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                               color: Colors.black,

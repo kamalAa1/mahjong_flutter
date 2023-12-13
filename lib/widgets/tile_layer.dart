@@ -6,7 +6,7 @@ import '../engine/tileset/tileset_renderer.dart';
 import '../widgets/tile.dart';
 import 'package:flutter/material.dart';
 
-typedef void Selected(int x, int y, int z);
+typedef Selected = void Function(int x, int y, int z);
 
 class TileLayer extends StatelessWidget {
   final LayoutMeta meta;

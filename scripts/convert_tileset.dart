@@ -63,7 +63,7 @@ void main3(List<String> arguments) async {
 const tilesetPath = "./assets/tilesets/";
 
 void main(List<String> arguments) async {
-  if (arguments.length == 0) {
+  if (arguments.isEmpty) {
     arguments = [];
     final listing =
         Directory.fromRawPath(Uint8List.fromList(tilesetPath.codeUnits)).list();
@@ -78,7 +78,7 @@ void main(List<String> arguments) async {
 
 Future<void> pngfyTileset(String tileset) async {
   final desktopFile = '$tileset.desktop';
-  File file = new File(tilesetPath + desktopFile);
+  File file = File(tilesetPath + desktopFile);
   String futureContent = await file.readAsString();
   final lines = futureContent.split(RegExp(r"[\n\r]+"));
   // final tilesetMeta = TilesetMeta.LoadString(desktopFile, futureContent);
@@ -97,11 +97,12 @@ Future<void> pngfyTileset(String tileset) async {
     print(result.stderr);
     final listing =
         Directory.fromRawPath(Uint8List.fromList(tilesetPath.codeUnits)).list();
-    final tilesetPrefix = basenameWithoutExtension(file) + '_';
+    final tilesetPrefix = '${basenameWithoutExtension(file)}_';
     await for (var file in listing) {
       final filename = basename(file.path);
-      if (!filename.startsWith(tilesetPrefix) || !filename.endsWith(".png"))
+      if (!filename.startsWith(tilesetPrefix) || !filename.endsWith(".png")) {
         continue;
+      }
       await file.rename(target + filename.substring(tilesetPrefix.length));
     }
   }

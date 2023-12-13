@@ -26,7 +26,7 @@ GameBoard makeBoard(Layout layout, LayoutPrecalc precalc,
 
   var steps = solve(precalc, tiles, moveables, 0, random);
 
-  if (steps == null) throw new Exception("Unsolvable layout!");
+  if (steps == null) throw Exception("Unsolvable layout!");
 
   final List<List<List<MahjongTile?>>> finalTiles = List.generate(
       layout.depth,

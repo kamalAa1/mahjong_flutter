@@ -9,7 +9,7 @@ import '../preferences.dart';
 import '../widgets/tile_animation_layer.dart';
 import '../widgets/tile_layer_painter.dart';
 
-typedef void Selected(int x, int y, int z);
+typedef Selected = void Function(int x, int y, int z);
 
 class Board extends StatelessWidget {
   final LayoutMeta meta;
@@ -21,7 +21,7 @@ class Board extends StatelessWidget {
   final Selected? onSelected;
   final TileAnimationLayer tileAnimationLayer;
 
-  Board({
+  const Board({
     Key? key,
     required this.board,
     required this.meta,
@@ -38,7 +38,7 @@ class Board extends StatelessWidget {
     return Consumer2<TilesetMetaCollection?, Preferences?>(builder: (context,
         TilesetMetaCollection? tilesetMetas, Preferences? preferences, child) {
       if (tilesetMetas == null || preferences == null) {
-        return Text("Loading...");
+        return const Text("Loading...");
       }
       final highlightMovables = preferences.highlightMovables;
       final tileset = tilesetMetas.get(preferences.tileset);
@@ -51,9 +51,9 @@ class Board extends StatelessWidget {
             if (snapshot.hasError) {
               print(snapshot.error);
               print(snapshot.stackTrace);
-              return Text("Error");
+              return const Text("Error");
             }
-            if (!snapshot.hasData) return Text("Loading...");
+            if (!snapshot.hasData) return const Text("Loading...");
             return FittedBox(
                 child: SizedBox(
                     width:

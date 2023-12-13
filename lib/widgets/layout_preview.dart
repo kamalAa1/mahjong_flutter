@@ -8,14 +8,14 @@ class LayoutPreview extends StatefulWidget {
   final LayoutMeta layoutMeta;
   final int? time;
 
-  LayoutPreview({
+  const LayoutPreview({
     Key? key,
     required this.layoutMeta,
     required this.time,
   }) : super(key: key);
 
   @override
-  _LayoutPreviewState createState() => _LayoutPreviewState();
+  State<LayoutPreview> createState() => _LayoutPreviewState();
 }
 
 class _LayoutPreviewState extends State<LayoutPreview> {
@@ -32,7 +32,7 @@ class _LayoutPreviewState extends State<LayoutPreview> {
 
   Future<void> loadInit() async {
     final layoutMeta = widget.layoutMeta;
-    final layout = await layoutMeta.getLayout(this.context);
+    final layout = await layoutMeta.getLayout(context);
 
     setState(() {
       this.layout = layout.pieces;
@@ -94,9 +94,9 @@ class _LayoutPreviewState extends State<LayoutPreview> {
             : text,
         if (time != null)
           Positioned(
-            child: Text(timeToString(time)),
             bottom: 0,
             right: 0,
+            child: Text(timeToString(time)),
           )
       ],
     );
@@ -109,11 +109,7 @@ timeToString(int givenMilliSeconds) {
   final minutes = ((givenSeconds - (hours * 3600)) / 60).floor();
   final seconds = givenSeconds - (hours * 3600) - (minutes * 60);
 
-  return hours.toString().padLeft(2, '0') +
-      ':' +
-      minutes.toString().padLeft(2, '0') +
-      ':' +
-      seconds.round().toString().padLeft(2, '0');
+  return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.round().toString().padLeft(2, '0')}';
 }
 
 class LayoutPreviewPainter extends CustomPainter {

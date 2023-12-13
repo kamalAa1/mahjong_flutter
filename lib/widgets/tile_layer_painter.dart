@@ -5,7 +5,7 @@ import '../engine/tileset/tileset_meta.dart';
 import '../engine/tileset/tileset_renderer.dart';
 import 'package:flutter/material.dart';
 
-typedef void Selected(int x, int y, int z);
+typedef Selected = void Function(int x, int y, int z);
 
 class TileLayerPainter extends StatelessWidget {
   final LayoutMeta meta;
@@ -41,7 +41,7 @@ class TileLayerPainter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final painter = TileLayerPainterPainter(this, this.shuffleId);
+    final painter = TileLayerPainterPainter(this, shuffleId);
 
     final size = tileset.getLayoutSize(width, height);
     return GestureDetector(
@@ -49,8 +49,9 @@ class TileLayerPainter extends StatelessWidget {
           final pos = details.localPosition;
           final tile = painter.tileHitDetect(pos.dx, pos.dy);
           final onSelected = this.onSelected;
-          if (onSelected != null && tile != null)
+          if (onSelected != null && tile != null) {
             onSelected(tile.x, tile.y, tile.z);
+          }
         },
         child: CustomPaint(
           size: Size(size.x, size.y),
@@ -119,9 +120,9 @@ class TileLayerPainterPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(TileLayerPainterPainter oldDelegate) =>
-      oldDelegate.tileCount != this.tileCount ||
-      oldDelegate.selectedX != this.selectedX ||
-      oldDelegate.selectedY != this.selectedY ||
+      oldDelegate.tileCount != tileCount ||
+      oldDelegate.selectedX != selectedX ||
+      oldDelegate.selectedY != selectedY ||
       oldDelegate.shuffleId != shuffleId;
 
   Iterable<Coord2D> tileDrawOrder(int height, int width) sync* {
